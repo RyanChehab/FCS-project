@@ -40,7 +40,7 @@ Please enter : """))
         elif n==2:
           neighboringCities()
         elif n==3:
-          pass
+          driversDelivering()
       except ValueError:
         print("Invalid input! please try again. ")                                       #Cities Menu
 
@@ -74,6 +74,21 @@ def dfs(city):
     current=current.next
   return visited
 
+def driversDelivering():
+  city = input("Enter city name: ").lower()
+  if city not in citys:
+    print("Avalibe cities are: ")
+    print("\n")
+    for c in citys:
+      print(c,end=" ")  
+  else:
+    driversReachable = []
+    visited = dfs(citys[city])
+    for d in drivers:
+      if citys[d.startcity] in visited:
+        driversReachable.append(d.name)
+    print(driversReachable)
+
 def neighboringCities():
     city = input("Enter city name: ").lower()
     if city not in citys:
@@ -86,7 +101,7 @@ def neighboringCities():
       list_of_key = list(citys.keys())          
       for i in visited:
         print(list_of_key[i])
-        
+
 def showDrivers():
   if len(drivers)==0:                                       #show drivers functiom
     print("No drivers")
@@ -236,8 +251,20 @@ graph.addEdge(citys["akar"],citys["jbeil"])
 graph.addEdge(citys["beirut"],citys["jbeil"])
 graph.addEdge(citys["saida"],citys["zahle"])
 graph.addEdge(citys["zahle"],citys["saida"])
-#graph.printGraph()
+graph.printGraph()
 
-#Welcome()
+
+G = Drivers("max","akar")
+G.addDriver()
+
+G = Drivers("charles","saida")
+G.addDriver()
+
+G = Drivers("lando","jbeil")
+G.addDriver()
 
 neighboringCities()
+
+#driversDelivering()
+# Welcome()
+
