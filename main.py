@@ -8,7 +8,7 @@ def Welcome():
 3. To exit the system
 Please enter : """))
       if n==1:
-        print("function1")
+        driversMenu()
       elif n==2:
         print("function2")
       elif n==3:
@@ -16,4 +16,24 @@ Please enter : """))
     except ValueError:
       print("Invalid input! please try again. ")
 
-Welcome()
+def driversMenu():
+    while True:
+      try:
+        n=int(input("""
+1. To view all drivers
+2. To add a driver
+3. To go back to main menu
+Please enter : """))
+        if n==1:
+          print("show all drivers")
+        elif n==2:
+          print("add driver")
+        elif n==3:
+          Welcome()
+      except ValueError:
+        print("Invalid input! please try again. ")
+
+
+
+
+
