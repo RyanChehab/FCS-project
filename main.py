@@ -10,13 +10,17 @@ Please enter : """))
       if n==1:
         driversMenu()
       elif n==2:
-        print("function2")
+        citiesMenu()
       elif n==3:
         quit()
     except ValueError:
       print("Invalid input! please try again. ")
 
+def citiesMenu():
+  pass 
+
 def driversMenu():
+    print("\nWELCOME TO DRIVERS MENU")
     while True:
       try:
         n=int(input("""
@@ -25,17 +29,32 @@ def driversMenu():
 3. To go back to main menu
 Please enter : """))
         if n==1:
-          print("show all drivers")
+          showDrivers()
         elif n==2:
-          print("add driver")
+          if addDRIVER()==True:
+            pass 
+          else:
+            print("Avalibe cities are: ")
+            print("\n")
+            for c in citys:
+              print(c,end=" ")
         elif n==3:
           Welcome()
       except ValueError:
         print("Invalid input! please try again. ")
 
+def addDRIVER():
+    name = input("Enter driver name: ").lower()
+    startcity = input("Enter start city: ").lower()
+    if startcity not in citys:
+      return False
+    else:
+      D = Drivers(name,startcity)
+      D.addDriver()
+      return True
 
 drivers = []
-citys = []
+citys = ["beirut","zahle","akar","saida","jbeil"]
 global id
 id = 0
 
@@ -59,5 +78,5 @@ def showDrivers():
       print(f"ID: {x.ID}, name: {x.name}, startcity: {x.startcity}")
 
 
-if __name__ == 'main':
-  Welcome()
+
+Welcome()
