@@ -33,6 +33,18 @@ Please enter : """))
       except ValueError:
         print("Invalid input! please try again. ")
 
+class Drivers:
+  def __init__(self,ID,name,startcity):
+    self.ID=ID
+    self.name=name
+    self.startcity=startcity
+    self.drivers=[]
+    
+  def addDriver(self,ID,name,startcity):
+    newdriver= Drivers(ID,name,startcity)
+    self.drivers.append(newdriver)
+
+
 
 
 
