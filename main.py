@@ -1,5 +1,9 @@
 drivers = []
-citys = ["beirut","zahle","akar","saida","jbeil"]                   #Global arrays
+citys = {"beirut":0,
+         "zahle":1,
+         "akar":2,
+         "saida":3,
+         "jbeil":4}                   #Global arrays
 global id
 id = 0
 
@@ -88,4 +92,130 @@ class Drivers:
   def addDriver(self):
     drivers.append(self)
 
-Welcome()
+class Node:
+  def __init__(self, info, next):
+    self.info = info
+    self.next = next
+
+class LinkedList:
+
+  def __init__(self):
+    self.head = None
+    self.tail = None
+    self.size = 0  #how many nodes are in my LL
+
+  def addToHead(self, info):  #O(1)
+    n = Node(info, None)
+    if self.size == 0:  # LL is empty, I have no nodes inside
+      self.head = n
+      self.tail = n
+      self.size = 1
+    else:
+      n.next = self.head
+      self.head = n
+      self.size += 1
+
+  def addToTail(self, info):  #O(1)
+    if self.size == 0:
+      self.addToHead(info)
+    else:
+      n = Node(info, None)
+      self.tail.next = n
+      self.tail = n
+      self.size += 1
+
+
+  def deleteHead(self):  # O(1)
+    if self.size == 0:  # empty
+      return None
+    elif self.size == 1:
+      val = self.head.info
+      self.head = None
+      self.tail = None
+      self.size = 0
+      return val
+    else:
+      val = self.head.info
+      self.head = self.head.next
+      self.size -= 1
+      return val
+
+
+  def printLL(self):  #O(n), where n is the number of nodes in the list
+    list_of_key = list(citys.keys())
+    list_of_value = list(citys.values())
+
+    i = self.head
+    while i != None:
+      position = list_of_value.index(i.info)
+      print(list_of_key[position],"->", end="")
+      i = i.next
+    print()
+
+
+  def deleteTail(self): #O(n), where n is the length of my LL
+    if self.size<=1:
+      return self.deleteHead()
+    else:
+      val=self.tail.info
+      #loop to find the element before the last
+      i=self.head
+      while i.next.next!=None: #I did not reach the node before the last
+        i=i.next
+      #update the tail and its next
+      self.tail=i
+      self.tail.next=None
+      self.size-=1
+      return val
+
+  # remove the node that contains info
+  def removeNode(self,info):
+    pass
+    
+  # search for info in LL 
+  def search(self,info):
+    if self.size==0:
+      return False
+    current=self.head
+    while current!=None:
+      if current.info==info:
+        return True
+      current=current.next
+    return False
+
+class AdjacencyList:
+  def __init__(self,V):
+    self.graph=[]
+    for i in range(V):
+      self.graph.append(LinkedList())
+
+  def addEdge(self,i,j):
+    #O(V)
+    if self.graph[i].search(j):
+      return None
+    else:
+      self.graph[i].addToHead(j)
+  #O(V)
+  def deleteEdge(self,i,j):
+    self.graph[i].removeNode(j)
+
+  def printGraph(self):
+    list_of_key = list(citys.keys())
+    list_of_value = list(citys.values())
+  
+    for i in range(len(self.graph)):
+      position = list_of_value.index(i)
+      print(list_of_key[position],end=": ")
+      self.graph[i].printLL()
+
+graph=AdjacencyList(5)
+
+graph.addEdge(citys["jbeil"],citys["akar"])
+graph.addEdge(citys["jbeil"],citys["beirut"])
+graph.addEdge(citys["akar"],citys["jbeil"])
+graph.addEdge(citys["beirut"],citys["jbeil"])
+graph.addEdge(citys["saida"],citys["zahle"])
+graph.addEdge(citys["zahle"],citys["saida"])
+graph.printGraph()
+
+#Welcome()
