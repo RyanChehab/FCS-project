@@ -143,12 +143,9 @@ class LinkedList:
 
   def printLL(self):  #O(n), where n is the number of nodes in the list
     list_of_key = list(citys.keys())
-    list_of_value = list(citys.values())
-
     i = self.head
     while i != None:
-      position = list_of_value.index(i.info)
-      print(list_of_key[position],"->", end="")
+      print(list_of_key[i.info],"->", end="")
       i = i.next
     print()
 
@@ -200,13 +197,11 @@ class AdjacencyList:
     self.graph[i].removeNode(j)
 
   def printGraph(self):
-    list_of_key = list(citys.keys())
-    list_of_value = list(citys.values())
-  
+    list_of_key = list(citys.keys())          #listing the Keys (beirut,jbeil..)
     for i in range(len(self.graph)):
-      position = list_of_value.index(i)
-      print(list_of_key[position],end=": ")
+      print(list_of_key[i],end=": ")          #
       self.graph[i].printLL()
+
 
 graph=AdjacencyList(5)
 
