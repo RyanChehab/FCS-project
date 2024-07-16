@@ -31,7 +31,8 @@ def citiesMenu():
 3. Print drivers delivering to city
 Please enter : """))
         if n==1:
-          pass                                    #Drivers Menu
+          for c in citys:
+            print(c,end=" ")                                         #Drivers Menu
         elif n==2:
           pass
         elif n==3:
