@@ -1,3 +1,5 @@
+from collections import deque
+
 drivers = []
 citys = {"beirut":0,
          "zahle":1,
@@ -29,6 +31,7 @@ def citiesMenu():
     print("\n**WELCOME TO CITIES MENU**")
     while True:
       try:
+        print("\n")
         n=int(input("""
 1. To show cities
 2. Print neighboring cities
@@ -36,13 +39,13 @@ def citiesMenu():
 Please enter : """))
         if n==1:
           for c in citys:
-            print(c,end=" ")                                         #Drivers Menu
-        elif n==2:
+            print(c,end=" ")                                        
+        elif n==2:                                                  #Cities Menu                                                   
           neighboringCities()
         elif n==3:
           driversDelivering()
       except ValueError:
-        print("Invalid input! please try again. ")                                       #Cities Menu
+        print("Invalid input! please try again. ")                                      
 
 def driversMenu():
     print("\n**WELCOME TO DRIVERS MENU**")
@@ -62,42 +65,62 @@ Please enter : """))
       except ValueError:
         print("Invalid input! please try again. ")
 
-def dfs(city):
-  visited = []
-  L = graph.graph[city]
-  current=L.head
-  while current!=None:
-    if current.info not in visited:
-      visited.append(current.info)
+def bfs(city): 
+  visited = [0]*len(graph.graph)
+  queue = deque()
+  queue.append(city)
+  visited[city] = 1
+  reachableNodes = []
+  while (len(queue) > 0):
+    u = queue.popleft()
+    if (type(u) == Node) :
+      reachableNodes.append(u.info)
+      ll = graph.graph[u.info]
+      current=ll.head
+      while current!=None:
+        if visited[current.info] == 0:
+          visited[current.info] = 1
+          queue.append(current)
+        current=current.next
     else:
-      dfs(current.info)
-    current=current.next
-  return visited
+      reachableNodes.append(u)
+      ll = graph.graph[u]
+      current=ll.head
+      while current!=None:
+        if visited[current.info] == 0:
+          visited[current.info] = 1
+          queue.append(current)
+        current=current.next
+  return reachableNodes
 
 def driversDelivering():
   city = input("Enter city name: ").lower()
   if city not in citys:
-    print("Avalibe cities are: ")
+    print("\n")
+    print("Wrong input! Availabe cities are: ")
     print("\n")
     for c in citys:
-      print(c,end=" ")  
+      print(c,end=" ")                                    #working
   else:
-    driversReachable = []
-    visited = dfs(citys[city])
+    driversReachable = []   
+    visited = bfs(citys[city])
     for d in drivers:
       if citys[d.startcity] in visited:
         driversReachable.append(d.name)
+    if len(driversReachable)==0:
+      print("There are no drivers!")
     print(driversReachable)
+
 
 def neighboringCities():
     city = input("Enter city name: ").lower()
     if city not in citys:
-      print("Avalibe cities are: ")
+      print("Wrong input! Availibe cities are: ")
       print("\n")
-      for c in citys:
+      for c in citys:                                       #working
         print(c,end=" ")  
     else:
-      visited = dfs(citys[city])
+      visited = bfs(citys[city])
       list_of_key = list(citys.keys())          
       for i in visited:
         print(list_of_key[i])
@@ -251,20 +274,5 @@ graph.addEdge(citys["akar"],citys["jbeil"])
 graph.addEdge(citys["beirut"],citys["jbeil"])
 graph.addEdge(citys["saida"],citys["zahle"])
 graph.addEdge(citys["zahle"],citys["saida"])
-graph.printGraph()
 
-
-G = Drivers("max","akar")
-G.addDriver()
-
-G = Drivers("charles","saida")
-G.addDriver()
-
-G = Drivers("lando","jbeil")
-G.addDriver()
-
-neighboringCities()
-
-#driversDelivering()
-# Welcome()
-
+Welcome()
